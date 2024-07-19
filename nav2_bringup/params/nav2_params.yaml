@@ -14,8 +14,8 @@ amcl:
     global_frame_id: "map"
     lambda_short: 0.1
     laser_likelihood_max_dist: 2.0
-    laser_max_range: 100.0
-    laser_min_range: -1.0
+    laser_max_range: 4.0
+    laser_min_range: 0.15
     laser_model_type: "likelihood_field"
     max_beams: 60
     max_particles: 2000
@@ -141,13 +141,13 @@ controller_server:
     FollowPath:
       plugin: "dwb_core::DWBLocalPlanner"
       debug_trajectory_details: True
-      min_vel_x: 0.0
+      min_vel_x: 0.1
       min_vel_y: 0.0
-      max_vel_x: 0.26
+      max_vel_x: 0.8
       max_vel_y: 0.0
       max_vel_theta: 1.0
       min_speed_xy: 0.0
-      max_speed_xy: 0.26
+      max_speed_xy: 0.5
       min_speed_theta: 0.0
       # Add high threshold velocity for turtlebot 3 issue.
       # https://github.com/ROBOTIS-GIT/turtlebot3_simulations/issues/75
@@ -197,7 +197,7 @@ local_costmap:
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
-        inflation_radius: 0.55
+        inflation_radius: 0.20 # default 0.55
       voxel_layer:
         plugin: "nav2_costmap_2d::VoxelLayer"
         enabled: True
@@ -226,6 +226,7 @@ local_costmap:
 global_costmap:
   global_costmap:
     ros__parameters:
+      
       update_frequency: 1.0
       publish_frequency: 1.0
       global_frame: map
@@ -245,7 +246,7 @@ global_costmap:
           clearing: True
           marking: True
           data_type: "LaserScan"
-          raytrace_max_range: 3.0
+          raytrace_max_range: 1.0
           raytrace_min_range: 0.0
           obstacle_max_range: 2.5
           obstacle_min_range: 0.0
@@ -255,7 +256,7 @@ global_costmap:
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
-        inflation_radius: 0.55
+        inflation_radius: 0.20 # default 0.55
       always_send_full_costmap: True
 
 map_server:
@@ -340,7 +341,7 @@ velocity_smoother:
     smoothing_frequency: 20.0
     scale_velocities: False
     feedback: "OPEN_LOOP"
-    max_velocity: [0.26, 0.0, 1.0]
+    max_velocity: [0.50, 0.0, 1.0]
     min_velocity: [-0.26, 0.0, -1.0]
     max_accel: [2.5, 0.0, 3.2]
     max_decel: [-2.5, 0.0, -3.2]
